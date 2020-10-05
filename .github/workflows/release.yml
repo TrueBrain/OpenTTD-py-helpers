@@ -41,7 +41,7 @@ jobs:
       env:
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: |
-        twine upload --username __token__ dist/*.whl dist/*.tar.gz
+        twine upload --repository testpypi --username __token__ dist/*.whl dist/*.tar.gz
 
     - name: Publish Source to GitHub releases
       uses: actions/upload-release-asset@v1

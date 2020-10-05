@@ -10,7 +10,11 @@ def _get_git_version(path):
 
     # Base the version off the "git describe --tags".
     command = shlex.split(f"git -C {path} describe --tags")
-    describe = subprocess.check_output(command, universal_newlines=True).strip()
+    try:
+        describe = subprocess.check_output(command, universal_newlines=True).strip()
+    except subprocess.CalledProcessError:
+        # Most likely this was a clone without tags
+        return None
     version, commit_since, git_hash = describe.rsplit("-", 3)
 
     # If we are not a release, we are a "post"; locally we can also be a
